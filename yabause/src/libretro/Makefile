@@ -123,7 +123,7 @@ else ifneq (,$(findstring odroid,$(platform)))
 		USE_AARCH64_DRC = 1
 		LOW_END = 1
 		# ODROID-N2
-		FLAGS += -marm -march=armv8-a+crc -mtune=cortex-a73.cortex-a53 -mfpu=neon-fp-armv8
+		FLAGS += -marm -march=armv8-a+crc -mtune=cortex-a73.cortex-a53
 	endif
 	ifeq ($(HAVE_GLES), 1)
 		LDFLAGS += -lGL -lGLESv2
