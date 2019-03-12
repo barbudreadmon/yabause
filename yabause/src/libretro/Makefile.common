@@ -55,8 +55,7 @@ SOURCES_C := $(SOURCE_DIR)/osdcore.c \
 	$(CORE_DIR)/libretro.c
 
 SOURCES_CXX := $(SOURCE_DIR)/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp \
-	$(SOURCE_DIR)/sh2_dynarec_devmiyax/DynarecSh2.cpp \
-	$(SOURCE_DIR)/Counter.cpp
+	$(SOURCE_DIR)/sh2_dynarec_devmiyax/DynarecSh2.cpp
 
 ifeq ($(HAVE_MUSASHI), 1)
 	SOURCES_C += $(SOURCE_DIR)/musashi/m68kcpu.c \
