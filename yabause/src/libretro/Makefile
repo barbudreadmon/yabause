@@ -117,6 +117,13 @@ else ifneq (,$(findstring odroid,$(platform)))
 		else
 			FLAGS += -marm -mfloat-abi=hard -mcpu=cortex-a9 -mfpu=neon
 		endif
+	else ifneq (,$(findstring ODROID-N2,$(BOARD)))
+		HAVE_SSE = 0
+		HAVE_GLES = 1
+		USE_AARCH64_DRC = 1
+		LOW_END = 1
+		# ODROID-N2
+		FLAGS += -marm -march=armv8-a+crc -mtune=cortex-a73.cortex-a53 -mfpu=neon-fp-armv8
 	endif
 	ifeq ($(HAVE_GLES), 1)
 		LDFLAGS += -lGL -lGLESv2
