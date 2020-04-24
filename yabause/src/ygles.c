@@ -3765,6 +3765,7 @@ void YglChangeResolution(int w, int h) {
        default:
         scale = 1;
      }
+     if (GlHeight < h * scale *_Ygl->vdp2wdensity/_Ygl->vdp2hdensity) scale = floor(scale/2);
      if (scale == 0) scale = 1;
      _Ygl->rwidth = w;
      _Ygl->rheight = h;
