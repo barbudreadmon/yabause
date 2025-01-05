@@ -134,11 +134,9 @@ struct retro_core_option_definition option_defs_us[] = {
       "Modify rendering resolution. Requires a restart.",
       {
          { "original", NULL },
-         { "480p", NULL },
-         { "720p", NULL },
-         { "1080p", NULL },
-         { "4k", NULL },
-         { "8k", NULL },
+         { "2X", NULL },
+         { "4X", NULL },
+         { "8X", NULL },
          { NULL, NULL},
       },
       "original"
