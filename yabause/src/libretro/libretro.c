@@ -62,20 +62,11 @@ static int addon_cart_type = CART_NONE;
 static int mesh_mode = ORIGINAL_MESH;
 static int banding_mode = ORIGINAL_BANDING;
 
-typedef enum
-{
-    N_RES_NO = 0,
-    N_RES_4X = 1,
-    N_RES_8k = 2,
-} NATIVE_RESOLUTION_MODE;
-
 static int g_skipframe = 0;
 static int g_videoformattype = -1;
 static int g_usecache = 0;
 static int resolution_mode = RES_ORIGINAL;
-static int native_resolution_mode = N_RES_NO;
 static int initial_resolution_mode = 0;
-static int initial_native_resolution_mode = N_RES_NO;
 static int force_downsampling = 0;
 static int numthreads = 4;
 static int use_beetle_saves = 0;
@@ -979,22 +970,12 @@ void check_variables(void)
    {
       if (strcmp(var.value, "original") == 0)
          resolution_mode = RES_ORIGINAL;
-      else if (strcmp(var.value, "480p") == 0)
-         resolution_mode = RES_1X;
-      else if (strcmp(var.value, "720p") == 0)
-         resolution_mode = RES_1X;
-      else if (strcmp(var.value, "1080p") == 0)
+      else if (strcmp(var.value, "2X") == 0)
          resolution_mode = RES_2X;
-      else if (strcmp(var.value, "4k") == 0)
-      {
+      else if (strcmp(var.value, "4X") == 0)
+         resolution_mode = RES_4X;
+      else if (strcmp(var.value, "8X") == 0)
          resolution_mode = RES_NATIVE;
-         native_resolution_mode = N_RES_4k;
-      }
-      else if (strcmp(var.value, "8k") == 0)
-      {
-         resolution_mode = RES_NATIVE;
-         native_resolution_mode = N_RES_8k;
-      }
    }
 
    var.key = "kronos_force_downsampling";
@@ -1136,15 +1117,10 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
       // Get the initial resolution mode at start
       // It will be the resolution_mode limit until the core is restarted
       initial_resolution_mode = resolution_mode;
-      initial_native_resolution_mode = native_resolution_mode;
       switch(resolution_mode)
       {
          case RES_ORIGINAL:
          case RES_SD:
-         case RES_1X:
-            window_width = 704;
-            window_height = 512;
-            break;
          case RES_1X:
             window_width = 1280;
             window_height = 720;
@@ -1153,18 +1129,13 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
             window_width = 1920;
             window_height = 1080;
             break;
+         case RES_4X:
+            window_width = 3840;
+            window_height = 2160;
+            break;
          case RES_NATIVE:
-            switch (native_resolution_mode)
-            {
-               case N_RES_4X:
-                  window_width = 3840;
-                  window_height = 2160;
-                  break;
-               case N_RES_8k:
-                  window_width = 7680;
-                  window_height = 4320;
-                  break;
-            }
+            window_width = 7680;
+            window_height = 4320;
             break;
       }
    }
@@ -1815,11 +1786,6 @@ void retro_run(void)
         {
           log_cb(RETRO_LOG_INFO, "Restart the core for the new resolution\n");
           resolution_mode = initial_resolution_mode;
-        }
-        if (native_resolution_mode > initial_native_resolution_mode)
-        {
-          log_cb(RETRO_LOG_INFO, "Restart the core for the new resolution\n");
-          native_resolution_mode = initial_native_resolution_mode;
         }
         resolution_need_update = (prev_resolution_mode != resolution_mode || prev_force_downsampling != force_downsampling);
         if (prev_resolution_mode != resolution_mode && VIDCore)
